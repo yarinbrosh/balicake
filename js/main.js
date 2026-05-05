@@ -307,33 +307,152 @@
     document.addEventListener('keydown', (e) => { if (e.key === 'Escape') close(); });
   }
 
-  /* ---------- Cookies banner ---------- */
-  const COOKIE_KEY = 'balicake_cookies_consent';
-  if (!localStorage.getItem(COOKIE_KEY)) {
-    const banner = el('div', { class: 'cookie-banner', role: 'dialog', 'aria-label': 'הסכמה לעוגיות' });
-    banner.appendChild(el('h4', {}, 'אנחנו משתמשים בעוגיות 🍪'));
-    banner.appendChild(el('p', {},
-      'האתר משתמש בעוגיות (Cookies) כדי להעניק לך את חוויית הגלישה הטובה ביותר ולשפר את השירותים שלנו. בהמשך הגלישה את/ה מסכים/ה לשימוש בהן.'
-    ));
-    const actions = el('div', { class: 'cookie-actions' });
-    const accept = el('button', { class: 'cookie-accept' }, 'מאשר/ת');
-    const decline = el('button', { class: 'cookie-decline' }, 'לא תודה');
-    actions.appendChild(accept);
-    actions.appendChild(decline);
-    banner.appendChild(actions);
-    document.body.appendChild(banner);
-
-    requestAnimationFrame(() => {
-      setTimeout(() => banner.classList.add('show'), 1500);
-    });
-    const closeBanner = (val) => {
-      try { localStorage.setItem(COOKIE_KEY, val); } catch {}
-      banner.classList.remove('show');
-      setTimeout(() => banner.remove(), 600);
+  /* ---------- Cookie consent (GDPR + Israeli Privacy Law) ---------- */
+  const CONSENT_KEY = 'balicake-cookie-consent';
+  const CONSENT_VERSION = 1;
+  const readConsent = () => {
+    try {
+      const raw = localStorage.getItem(CONSENT_KEY);
+      if (!raw) return null;
+      const data = JSON.parse(raw);
+      if (data.version !== CONSENT_VERSION) return null;
+      return data;
+    } catch { return null; }
+  };
+  const writeConsent = (categories) => {
+    const data = {
+      categories: { essential: true, analytics: !!categories.analytics, marketing: !!categories.marketing },
+      decidedAt: new Date().toISOString(),
+      version: CONSENT_VERSION,
     };
-    accept.addEventListener('click', () => closeBanner('accepted'));
-    decline.addEventListener('click', () => closeBanner('declined'));
-  }
+    try { localStorage.setItem(CONSENT_KEY, JSON.stringify(data)); } catch {}
+    if (typeof window.gtag === 'function') {
+      window.gtag('consent', 'update', {
+        ad_storage: data.categories.marketing ? 'granted' : 'denied',
+        ad_user_data: data.categories.marketing ? 'granted' : 'denied',
+        ad_personalization: data.categories.marketing ? 'granted' : 'denied',
+        analytics_storage: data.categories.analytics ? 'granted' : 'denied',
+      });
+    }
+    return data;
+  };
+
+  let bannerEl = null;
+  const showBanner = () => {
+    if (bannerEl) return;
+    bannerEl = el('div', { class: 'cookie-banner', role: 'dialog', 'aria-live': 'polite', 'aria-label': 'הסכמה לעוגיות' });
+    const head = el('div', { class: 'cookie-banner-head' });
+    head.appendChild(el('span', { class: 'cookie-icon', 'aria-hidden': 'true' }, '🍪'));
+    head.appendChild(el('h4', {}, 'אנחנו משתמשים בעוגיות'));
+    bannerEl.appendChild(head);
+    const p = el('p', {},
+      'אנו משתמשים בעוגיות הכרחיות להפעלת האתר, וכן בעוגיות אנליטיקה ושיווק (בכפוף להסכמה) כדי לשפר את החוויה. '
+    );
+    const link = el('a', { href: 'privacy.html' }, 'מדיניות הפרטיות שלנו');
+    p.appendChild(link);
+    p.appendChild(document.createTextNode('.'));
+    bannerEl.appendChild(p);
+    const actions = el('div', { class: 'cookie-actions' });
+    const settingsBtn = el('button', { type: 'button', class: 'cookie-settings-btn' }, 'הגדרות');
+    const declineBtn = el('button', { type: 'button', class: 'cookie-decline' }, 'דחיית הכל');
+    const acceptBtn = el('button', { type: 'button', class: 'cookie-accept' }, 'אישור הכל');
+    actions.appendChild(settingsBtn);
+    actions.appendChild(declineBtn);
+    actions.appendChild(acceptBtn);
+    bannerEl.appendChild(actions);
+    document.body.appendChild(bannerEl);
+    requestAnimationFrame(() => setTimeout(() => bannerEl && bannerEl.classList.add('show'), 800));
+    settingsBtn.addEventListener('click', () => openSettings());
+    acceptBtn.addEventListener('click', () => { writeConsent({ analytics: true, marketing: true }); hideBanner(); });
+    declineBtn.addEventListener('click', () => { writeConsent({ analytics: false, marketing: false }); hideBanner(); });
+  };
+  const hideBanner = () => {
+    if (!bannerEl) return;
+    bannerEl.classList.remove('show');
+    const node = bannerEl;
+    bannerEl = null;
+    setTimeout(() => node.remove(), 600);
+  };
+
+  let modalEl = null;
+  const openSettings = () => {
+    const current = readConsent() || { categories: { essential: true, analytics: false, marketing: false } };
+    if (modalEl) { modalEl.classList.add('show'); return; }
+    const state = { analytics: !!current.categories.analytics, marketing: !!current.categories.marketing };
+    modalEl = el('div', { class: 'cookie-modal-backdrop', role: 'dialog', 'aria-modal': 'true', 'aria-label': 'הגדרות עוגיות' });
+    const modal = el('div', { class: 'cookie-modal' });
+    const head = el('div', { class: 'cookie-modal-head' });
+    head.appendChild(el('h3', {}, 'הגדרות עוגיות'));
+    const closeBtn = el('button', { type: 'button', class: 'cookie-modal-close', 'aria-label': 'סגירה' }, '✕');
+    head.appendChild(closeBtn);
+    modal.appendChild(head);
+    modal.appendChild(el('p', { class: 'cookie-modal-intro' },
+      'בחרו אילו סוגי עוגיות אתם מאשרים. ניתן לחזור בכם מההסכמה בכל עת דרך הקישור "ניהול עוגיות" בתחתית האתר.'
+    ));
+
+    const makeCat = (key, icon, title, desc, locked) => {
+      const cat = el('div', { class: 'cookie-cat' });
+      const row = el('div', { class: 'cookie-cat-row' });
+      const info = el('div', { class: 'cookie-cat-info' });
+      info.appendChild(el('span', { class: 'ico', 'aria-hidden': 'true' }, icon));
+      info.appendChild(el('h5', {}, title));
+      const toggle = el('button', { type: 'button', class: 'cookie-toggle' + (locked || state[key] ? ' on' : '') + (locked ? ' locked' : ''), role: 'switch', 'aria-checked': locked ? 'true' : (state[key] ? 'true' : 'false'), 'aria-label': title });
+      if (!locked) {
+        toggle.addEventListener('click', () => {
+          state[key] = !state[key];
+          toggle.classList.toggle('on', state[key]);
+          toggle.setAttribute('aria-checked', state[key] ? 'true' : 'false');
+        });
+      }
+      row.appendChild(info);
+      row.appendChild(toggle);
+      cat.appendChild(row);
+      cat.appendChild(el('p', {}, desc));
+      return cat;
+    };
+
+    modal.appendChild(makeCat('essential', '🛡️', 'עוגיות הכרחיות',
+      'נדרשות להפעלת האתר — שמירת בחירות בסיסיות, אבטחה וטעינה תקינה. לא ניתן לבטל.', true));
+    modal.appendChild(makeCat('analytics', '📊', 'עוגיות אנליטיות',
+      'עוזרות לנו להבין איך משתמשים באתר (Google Analytics, באופן אנונימי) כדי לשפר את החוויה.'));
+    modal.appendChild(makeCat('marketing', '📣', 'עוגיות שיווק',
+      'משמשות להצגת מודעות רלוונטיות ולמדידת קמפיינים פרסומיים מחוץ לאתר.'));
+
+    const actions = el('div', { class: 'cookie-modal-actions' });
+    const reject = el('button', { type: 'button' }, 'דחיית הכל');
+    const save = el('button', { type: 'button' }, 'שמירת בחירה');
+    const acceptAll = el('button', { type: 'button', class: 'primary' }, 'אישור הכל');
+    actions.appendChild(reject);
+    actions.appendChild(save);
+    actions.appendChild(acceptAll);
+    modal.appendChild(actions);
+    modalEl.appendChild(modal);
+    document.body.appendChild(modalEl);
+    requestAnimationFrame(() => modalEl.classList.add('show'));
+
+    const closeModal = () => {
+      if (!modalEl) return;
+      modalEl.classList.remove('show');
+      const node = modalEl;
+      modalEl = null;
+      setTimeout(() => node.remove(), 350);
+    };
+    closeBtn.addEventListener('click', closeModal);
+    modalEl.addEventListener('click', (e) => { if (e.target === modalEl) closeModal(); });
+    document.addEventListener('keydown', function onEsc(e) {
+      if (e.key === 'Escape' && modalEl) { closeModal(); document.removeEventListener('keydown', onEsc); }
+    });
+    reject.addEventListener('click', () => { writeConsent({ analytics: false, marketing: false }); hideBanner(); closeModal(); });
+    save.addEventListener('click', () => { writeConsent(state); hideBanner(); closeModal(); });
+    acceptAll.addEventListener('click', () => { writeConsent({ analytics: true, marketing: true }); hideBanner(); closeModal(); });
+  };
+
+  if (!readConsent()) showBanner();
+
+  document.querySelectorAll('.cookie-settings-link').forEach(btn => {
+    btn.addEventListener('click', (e) => { e.preventDefault(); openSettings(); });
+  });
+  window.addEventListener('open-cookie-settings', () => openSettings());
 
   /* ---------- Smooth anchor scroll ---------- */
   document.querySelectorAll('a[href^="#"]').forEach(a => {

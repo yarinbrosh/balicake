@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=3">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎂%3C/text%3E%3C/svg%3E">
   <!-- ============= GOOGLE ANALYTICS 4 ============= -->
   <!-- TODO: Replace G-XXXXXXXXXX with real GA4 Measurement ID from analytics.google.com -->
@@ -258,10 +258,19 @@
       </div>
       <div class="footer-bottom">
         <div>© <span id="yr"></span> Balicake · כל הזכויות שמורות</div>
-        <div>אתר בעברית מלאה</div>
+        <div class="footer-bottom-links">
+          <a href="privacy.html">מדיניות פרטיות</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <a href="accessibility.html">הצהרת נגישות</a>
+          <span class="sep" aria-hidden="true">·</span>
+          <button type="button" class="cookie-settings-link">ניהול עוגיות</button>
+        </div>
       </div>
       <div class="footer-credit">
-        <a href="#" aria-label="עיצוב ופיתוח"><span class="star">✦</span> נבנה ועוצב על ידי · BALICAKE STUDIO</a>
+        <a href="https://oystudio.co.il" target="_blank" rel="noopener noreferrer" aria-label="נבנה על ידי O&Y STUDIO" class="oy-signature">
+          <span class="oy-label">נבנה ועוצב על ידי</span>
+          <span class="oy-brand"><span class="oy-spark">✦</span> O&amp;Y STUDIO</span>
+        </a>
       </div>
     </div>
   </footer>
@@ -271,6 +280,6 @@
   </a>
 
   <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
-  <script src="js/main.js?v=2" defer></script>
+  <script src="js/main.js?v=3" defer></script>
 </body>
 </html>
