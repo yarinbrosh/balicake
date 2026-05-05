@@ -19,7 +19,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css?v=2">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎂%3C/text%3E%3C/svg%3E">
+  <!-- ============= GOOGLE ANALYTICS 4 ============= -->
+  <!-- TODO: Replace G-XXXXXXXXXX with real GA4 Measurement ID from analytics.google.com -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX', { anonymize_ip: true });
+  </script>
+
+  <!-- ============= META PIXEL ============= -->
+  <!-- TODO: Replace 000000000000000 with real Pixel ID from business.facebook.com -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '000000000000000');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=000000000000000&ev=PageView&noscript=1" alt=""/></noscript>
+
 </head>
+
 <body>
   <header class="site-header">
     <div class="header-inner">
@@ -76,141 +96,8 @@
         <button data-filter="desserts">קינוחים במלאי</button>
       </div>
 
-      <div class="products-grid">
-        <article class="product-card reveal" data-category="birthdays" id="birthdays">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">יום הולדת</div>
-            <h4>עוגת יום הולדת קלאסית</h4>
-            <p class="price">החל מ־<strong>₪320</strong> · לפי משקל</p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="birthdays">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1535254973040-607b474cb50d?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">יום הולדת</div>
-            <h4>עוגה מעוצבת לבת מצווה</h4>
-            <p class="price">החל מ־<strong>₪480</strong></p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="birthdays">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">יום הולדת</div>
-            <h4>עוגה ורודה רומנטית</h4>
-            <p class="price">החל מ־<strong>₪380</strong></p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="3d" id="3d">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1612203985729-70726954388c?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">תלת ממד</div>
-            <h4>עוגת תלת ממד לילדים</h4>
-            <p class="price">החל מ־<strong>₪650</strong> · לפי עיצוב</p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="3d">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">תלת ממד</div>
-            <h4>עוגת שוקולד מובסת מעוצבת</h4>
-            <p class="price">החל מ־<strong>₪580</strong></p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="3d">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1623428454614-abaf00244e52?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">תלת ממד</div>
-            <h4>עוגת חתונה רב־קומתית</h4>
-            <p class="price">לפי הצעת מחיר אישית</p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="bento" id="bento">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">סדנת בנטו</div>
-            <h4>סדנה אישית — עיצוב בנטו</h4>
-            <p class="price">לפי הצעת מחיר · מ־<strong>₪250</strong> למשתתף</p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="bento">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">סדנת בנטו</div>
-            <h4>סדנת קבוצה — עד 8 משתתפים</h4>
-            <p class="price">החל מ־<strong>₪1,800</strong> לקבוצה</p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="bachelorette" id="bachelorette">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1530819568329-97653eafbbfa?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">מסיבת רווקות</div>
-            <h4>חוויית עיצוב עוגות לקבוצה</h4>
-            <p class="price">החל מ־<strong>₪2,200</strong> · עד 12 משתתפות</p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="bachelorette">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">מסיבת רווקות</div>
-            <h4>סדנת מקרונים פרימיום</h4>
-            <p class="price">החל מ־<strong>₪320</strong> למשתתפת</p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="course" id="course">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">קורס</div>
-            <h4>קורס אפייה למתחילים</h4>
-            <p class="price">8 מפגשים · החל מ־<strong>₪1,800</strong></p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="course">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1517433367423-c7e5b0f35086?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">קורס</div>
-            <h4>קורס עיצוב עוגות מתקדם</h4>
-            <p class="price">10 מפגשים · החל מ־<strong>₪2,400</strong></p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="desserts">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">קינוח במלאי</div>
-            <h4>קופסת מקרונים — 12 יח׳</h4>
-            <p class="price"><strong>₪95</strong></p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="desserts">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">קינוח במלאי</div>
-            <h4>פבלובה פירות העונה</h4>
-            <p class="price"><strong>₪120</strong></p>
-          </div>
-        </article>
-
-        <article class="product-card reveal" data-category="desserts">
-          <div class="product-img" style="background-image: url('https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80');"></div>
-          <div class="product-body">
-            <div class="badge">קינוח במלאי</div>
-            <h4>טארט שוקולד צרפתי</h4>
-            <p class="price"><strong>₪140</strong></p>
-          </div>
-        </article>
+      <div class="products-grid" id="products-grid" data-cms-source="data/products.json">
+        <p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 3rem 0;">טוען מוצרים...</p>
       </div>
 
       <div class="text-center" style="margin-top: 4rem;">

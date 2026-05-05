@@ -1,0 +1,152 @@
+{
+  "_doc": "קובץ ניהול מוצרים — ערוך כאן כדי להוסיף/למחוק/לעדכן מוצרים. שמור והעלה ל-GitHub. ראה data/README.md להוראות.",
+  "_categories": {
+    "birthdays": "ימי הולדת ועיצוב עוגות",
+    "bento": "סדנאות בנטו",
+    "bachelorette": "סדנאות מסיבת רווקות",
+    "course": "קורס אפייה ועיצוב",
+    "3d": "עוגות תלת מימד",
+    "desserts": "קינוחים במלאי"
+  },
+  "products": [
+    {
+      "id": "birthday-classic",
+      "category": "birthdays",
+      "badge": "יום הולדת",
+      "name": "עוגת יום הולדת קלאסית",
+      "price": "החל מ־₪320 · לפי משקל",
+      "image": "https://images.unsplash.com/photo-1464349095431-e9a21285b5f3?auto=format&fit=crop&w=800&q=80",
+      "alt": "עוגת יום הולדת קלאסית מעוצבת"
+    },
+    {
+      "id": "bat-mitzvah",
+      "category": "birthdays",
+      "badge": "יום הולדת",
+      "name": "עוגה מעוצבת לבת מצווה",
+      "price": "החל מ־₪480",
+      "image": "https://images.unsplash.com/photo-1535254973040-607b474cb50d?auto=format&fit=crop&w=800&q=80",
+      "alt": "עוגה לבנה מעוצבת לבת מצווה"
+    },
+    {
+      "id": "pink-romantic",
+      "category": "birthdays",
+      "badge": "יום הולדת",
+      "name": "עוגה ורודה רומנטית",
+      "price": "החל מ־₪380",
+      "image": "https://images.unsplash.com/photo-1578985545062-69928b1d9587?auto=format&fit=crop&w=800&q=80",
+      "alt": "עוגה ורודה עם פרחי שמנת"
+    },
+    {
+      "id": "3d-kids",
+      "category": "3d",
+      "badge": "תלת ממד",
+      "name": "עוגת תלת ממד לילדים",
+      "price": "החל מ־₪650 · לפי עיצוב",
+      "image": "https://images.unsplash.com/photo-1612203985729-70726954388c?auto=format&fit=crop&w=800&q=80",
+      "alt": "עוגת תלת ממד צבעונית לילדים"
+    },
+    {
+      "id": "3d-chocolate",
+      "category": "3d",
+      "badge": "תלת ממד",
+      "name": "עוגת שוקולד מובסת מעוצבת",
+      "price": "החל מ־₪580",
+      "image": "https://images.unsplash.com/photo-1606890737304-57a1ca8a5b62?auto=format&fit=crop&w=800&q=80",
+      "alt": "עוגת שוקולד מובסת עם קישוטי תלת ממד"
+    },
+    {
+      "id": "wedding-tiered",
+      "category": "3d",
+      "badge": "תלת ממד",
+      "name": "עוגת חתונה רב־קומתית",
+      "price": "לפי הצעת מחיר אישית",
+      "image": "https://images.unsplash.com/photo-1623428454614-abaf00244e52?auto=format&fit=crop&w=800&q=80",
+      "alt": "עוגת חתונה לבנה רב־קומתית"
+    },
+    {
+      "id": "bento-personal",
+      "category": "bento",
+      "badge": "סדנת בנטו",
+      "name": "סדנה אישית — עיצוב בנטו",
+      "price": "מ־₪250 למשתתף",
+      "image": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80",
+      "alt": "סדנת עיצוב עוגות בנטו"
+    },
+    {
+      "id": "bento-group",
+      "category": "bento",
+      "badge": "סדנת בנטו",
+      "name": "סדנת קבוצה — עד 8 משתתפים",
+      "price": "החל מ־₪1,800 לקבוצה",
+      "image": "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80",
+      "alt": "סדנת בנטו קבוצתית"
+    },
+    {
+      "id": "bachelorette-cake",
+      "category": "bachelorette",
+      "badge": "מסיבת רווקות",
+      "name": "חוויית עיצוב עוגות לקבוצה",
+      "price": "החל מ־₪2,200 · עד 12 משתתפות",
+      "image": "https://images.unsplash.com/photo-1530819568329-97653eafbbfa?auto=format&fit=crop&w=800&q=80",
+      "alt": "מסיבת רווקות סדנת עוגות"
+    },
+    {
+      "id": "macaron-workshop",
+      "category": "bachelorette",
+      "badge": "מסיבת רווקות",
+      "name": "סדנת מקרונים פרימיום",
+      "price": "החל מ־₪320 למשתתפת",
+      "image": "https://images.unsplash.com/photo-1571115177098-24ec42ed204d?auto=format&fit=crop&w=800&q=80",
+      "alt": "סדנת מקרונים פרימיום"
+    },
+    {
+      "id": "course-beginner",
+      "category": "course",
+      "badge": "קורס",
+      "name": "קורס אפייה למתחילים",
+      "price": "8 מפגשים · החל מ־₪1,800",
+      "image": "https://images.unsplash.com/photo-1486427944299-d1955d23e34d?auto=format&fit=crop&w=800&q=80",
+      "alt": "קורס אפייה למתחילים"
+    },
+    {
+      "id": "course-advanced",
+      "category": "course",
+      "badge": "קורס",
+      "name": "קורס עיצוב עוגות מתקדם",
+      "price": "10 מפגשים · החל מ־₪2,400",
+      "image": "https://images.unsplash.com/photo-1517433367423-c7e5b0f35086?auto=format&fit=crop&w=800&q=80",
+      "alt": "קורס עיצוב עוגות מתקדם"
+    },
+    {
+      "id": "macaron-box",
+      "category": "desserts",
+      "badge": "קינוח במלאי",
+      "name": "קופסת מקרונים — 12 יח׳",
+      "price": "₪95",
+      "image": "https://images.unsplash.com/photo-1558326567-98ae2405596b?auto=format&fit=crop&w=800&q=80",
+      "alt": "קופסת מקרונים מתנה"
+    },
+    {
+      "id": "pavlova",
+      "category": "desserts",
+      "badge": "קינוח במלאי",
+      "name": "פבלובה פירות העונה",
+      "price": "₪120",
+      "image": "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&w=800&q=80",
+      "alt": "פבלובה עם פירות העונה"
+    },
+    {
+      "id": "chocolate-tart",
+      "category": "desserts",
+      "badge": "קינוח במלאי",
+      "name": "טארט שוקולד צרפתי",
+      "price": "₪140",
+      "image": "https://images.unsplash.com/photo-1565958011703-44f9829ba187?auto=format&fit=crop&w=800&q=80",
+      "alt": "טארט שוקולד צרפתי"
+    }
+  ],
+  "_settings": {
+    "whatsapp_phone": "972500000000",
+    "whatsapp_message_template": "היי Balicake! אני רוצה להזמין: {name} ({price}). מה זמין?"
+  }
+}

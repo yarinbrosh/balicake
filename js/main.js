@@ -158,21 +158,119 @@
     });
   });
 
-  /* ---------- Catalog filter ---------- */
+  /* ---------- CMS: Load products from data/products.json ---------- */
+  const productsGrid = document.getElementById('products-grid');
   const filterBtns = document.querySelectorAll('.catalog-filter button');
-  const productItems = document.querySelectorAll('[data-category]');
-  if (filterBtns.length && productItems.length) {
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const cat = btn.dataset.filter;
-        productItems.forEach(item => {
-          const show = cat === 'all' || item.dataset.category === cat;
-          item.style.display = show ? '' : 'none';
+
+  const renderProducts = (products, settings) => {
+    if (!productsGrid) return;
+    productsGrid.textContent = '';
+    if (!products.length) {
+      const empty = el('p', { style: 'grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem 0;' }, 'אין מוצרים להצגה.');
+      productsGrid.appendChild(empty);
+      return;
+    }
+    products.forEach(p => {
+      const article = el('article', { class: 'product-card reveal', 'data-category': p.category, id: p.id || '' });
+      const img = el('div', {
+        class: 'product-img',
+        role: 'img',
+        'aria-label': p.alt || p.name,
+        style: `background-image: url('${p.image}');`
+      });
+      const body = el('div', { class: 'product-body' });
+      body.appendChild(el('div', { class: 'badge' }, p.badge || ''));
+      body.appendChild(el('h4', {}, p.name));
+      const price = el('p', { class: 'price' });
+      const priceText = String(p.price || '');
+      const m = priceText.match(/^(.*?)(₪[\d,]+)(.*)$/);
+      if (m) {
+        if (m[1]) price.appendChild(document.createTextNode(m[1]));
+        const strong = document.createElement('strong');
+        strong.textContent = m[2];
+        price.appendChild(strong);
+        if (m[3]) price.appendChild(document.createTextNode(m[3]));
+      } else {
+        price.textContent = priceText;
+      }
+      body.appendChild(price);
+
+      const phone = (settings && settings.whatsapp_phone) || '972500000000';
+      const tpl = (settings && settings.whatsapp_message_template) || 'היי! אני רוצה להזמין: {name} ({price})';
+      const msg = tpl.replace('{name}', p.name).replace('{price}', p.price || '');
+      const waLink = el('a', {
+        class: 'product-wa-btn',
+        href: `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`,
+        target: '_blank',
+        rel: 'noopener',
+        'aria-label': `הזמן את ${p.name} בוואטסאפ`
+      });
+      waLink.appendChild(svg(
+        { width: '16', height: '16', viewBox: '0 0 24 24', fill: 'currentColor' },
+        'M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24z'
+      ));
+      waLink.appendChild(document.createTextNode(' הזמנה מהירה'));
+      body.appendChild(waLink);
+
+      article.appendChild(img);
+      article.appendChild(body);
+      productsGrid.appendChild(article);
+    });
+
+    // Re-attach reveal observer to new cards
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+      productsGrid.querySelectorAll('.reveal').forEach(n => io.observe(n));
+    }
+
+    // Wire filter buttons to dynamically-rendered products
+    if (filterBtns.length) {
+      filterBtns.forEach(btn => {
+        // Remove old listeners by cloning (defensive against re-render)
+        const newBtn = btn.cloneNode(true);
+        btn.parentNode.replaceChild(newBtn, btn);
+      });
+      document.querySelectorAll('.catalog-filter button').forEach(btn => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.catalog-filter button').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const cat = btn.dataset.filter;
+          productsGrid.querySelectorAll('[data-category]').forEach(item => {
+            item.style.display = (cat === 'all' || item.dataset.category === cat) ? '' : 'none';
+          });
         });
       });
-    });
+    }
+  };
+
+  if (productsGrid && productsGrid.dataset.cmsSource) {
+    fetch(productsGrid.dataset.cmsSource)
+      .then(r => r.json())
+      .then(data => renderProducts(data.products || [], data._settings || {}))
+      .catch(err => {
+        console.error('Failed to load products:', err);
+        productsGrid.textContent = 'שגיאה בטעינת המוצרים. נסה לרענן.';
+      });
+  } else {
+    /* ---------- Static catalog filter (legacy fallback) ---------- */
+    const productItems = document.querySelectorAll('[data-category]');
+    if (filterBtns.length && productItems.length) {
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          const cat = btn.dataset.filter;
+          productItems.forEach(item => {
+            const show = cat === 'all' || item.dataset.category === cat;
+            item.style.display = show ? '' : 'none';
+          });
+        });
+      });
+    }
   }
 
   /* ---------- Lightbox (Gallery) ---------- */
