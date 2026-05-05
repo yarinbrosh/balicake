@@ -49,7 +49,7 @@ python -m http.server 8000
 
 לפני העלאה לדומיין הסופי, החליפו את ה־placeholders האלה:
 
-1. **טלפון WhatsApp** — `wa.me/972500000000` (חפשו ב-`*.html` ו-`data/products.json`)
+1. **טלפון WhatsApp** — `wa.me/972543097883` (חפשו ב-`*.html` ו-`data/products.json`)
 2. **GA4 ID** — `G-XXXXXXXXXX` (בכל ה-HTML)
 3. **Meta Pixel ID** — `000000000000000` (בכל ה-HTML)
 4. **דומיין** — `https://balicake.co.il/` ב-`og:` tags ו-`sitemap.xml`/`robots.txt`
