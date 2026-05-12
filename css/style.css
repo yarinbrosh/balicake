@@ -1392,7 +1392,14 @@ p { color: var(--text-secondary); }
   margin: 0 auto;
   text-align: center;
 }
-.about-story.no-img .signature { display: inline-block; }
+.about-story .signature {
+  display: inline-block;
+  margin-top: 1.5rem;
+  font-family: var(--font-script);
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+  color: var(--accent-gold-dark);
+  line-height: 1.2;
+}
 .about-story .img-col {
   aspect-ratio: 4 / 5;
   background-size: cover;
