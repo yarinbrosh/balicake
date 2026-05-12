@@ -123,13 +123,33 @@
           io.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+    }, { threshold: 0.05, rootMargin: '0px 0px 100px 0px' });
     reveals.forEach((node, i) => {
       if (!node.style.getPropertyValue('--delay')) {
         node.style.setProperty('--delay', `${(i % 4) * 0.08}s`);
       }
       io.observe(node);
     });
+    // Immediate reveal for elements already in/near viewport on load
+    // (IO sometimes misses these on iOS Safari / slow mobile)
+    requestAnimationFrame(() => {
+      reveals.forEach(node => {
+        const rect = node.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 200 && rect.bottom > -50) {
+          node.classList.add('in-view');
+          io.unobserve(node);
+        }
+      });
+    });
+    // Safety net: after 1.5s, force-reveal anything still hidden
+    setTimeout(() => {
+      reveals.forEach(node => {
+        if (!node.classList.contains('in-view')) {
+          node.classList.add('in-view');
+          io.unobserve(node);
+        }
+      });
+    }, 1500);
   } else {
     reveals.forEach(node => node.classList.add('in-view'));
   }

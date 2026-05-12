@@ -417,6 +417,15 @@ p { color: var(--text-secondary); }
   padding-top: 2.5rem;
   border-top: 1px solid var(--border);
 }
+.about-stats--4col {
+  grid-template-columns: repeat(4, 1fr);
+  max-width: 900px;
+  margin-inline: auto;
+  border-top: none;
+  text-align: center;
+}
+.about-stats--4col .stat { text-align: center; }
+.about-stats--4col .num { font-size: clamp(2rem, 6vw, 3rem); }
 .about-stats .stat .num {
   font-family: var(--font-serif);
   font-size: clamp(1.8rem, 3vw, 2.5rem);
@@ -1783,6 +1792,8 @@ html.a11y-no-motion .logo-mark, html.a11y-no-motion .signature, html.a11y-no-mot
 
   .about-stats { grid-template-columns: 1fr; gap: 1rem; padding-top: 1.5rem; margin-top: 1.5rem; }
   .about-stats .stat { text-align: center; }
+  .about-stats--4col { grid-template-columns: repeat(2, 1fr); gap: 1.5rem 1rem; }
+  .about-stats--4col .num { font-size: 2rem; }
 
   .cookie-banner {
     inset-inline: 1rem;
