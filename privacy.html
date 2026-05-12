@@ -2,7 +2,7 @@
 <html lang="he" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#FAF6EE">
   <title>מדיניות פרטיות · Balicake</title>
   <meta property="og:title" content="Balicake · בוטיק עוגות מעוצבות">
@@ -17,8 +17,40 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Allura&family=Frank+Ruhl+Libre:wght@300;400;500;700&family=Heebo:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css?v=4">
+  <link rel="stylesheet" href="css/style.css?v=5">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🎂%3C/text%3E%3C/svg%3E">
+  <!-- ============= GOOGLE CONSENT MODE v2 (must run BEFORE GA4) ============= -->
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'functionality_storage': 'granted',
+      'security_storage': 'granted',
+      'wait_for_update': 500,
+      'region': ['IL', 'EEA']
+    });
+  </script>
+
+  <!-- ============= GOOGLE ANALYTICS 4 ============= -->
+  <!-- GA4 Measurement ID: G-ZY3YNH5D94 (Balicake Production) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZY3YNH5D94"></script>
+  <script>
+    gtag('js', new Date());
+    gtag('config', 'G-ZY3YNH5D94', { anonymize_ip: true });
+  </script>
+
+  <!-- ============= META PIXEL ============= -->
+  <!-- TODO: Replace 000000000000000 with real Pixel ID from business.facebook.com -->
+  <script>
+    !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '000000000000000');
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=000000000000000&ev=PageView&noscript=1" alt=""/></noscript>
 </head>
 <body>
   <header class="site-header">
@@ -153,7 +185,7 @@
           <span class="wa-icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448L.057 24z"/></svg></span>
           שלחו הודעה בוואטסאפ
         </a>
-        <span class="phone">054-309-7883</span>
+        <a href="tel:+972543097883" class="phone">054-309-7883</a>
       </div>
       <div class="footer-grid">
         <div>
@@ -213,6 +245,6 @@
   </a>
 
   <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
-  <script src="js/main.js?v=4" defer></script>
+  <script src="js/main.js?v=5" defer></script>
 </body>
 </html>

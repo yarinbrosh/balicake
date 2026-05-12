@@ -6,7 +6,7 @@
 /* ---------- CSS Reset ---------- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
-body { min-height: 100vh; line-height: 1.6; overflow-x: hidden; }
+body { min-height: 100vh; min-height: 100dvh; line-height: 1.6; overflow-x: hidden; }
 img, picture, video { display: block; max-width: 100%; height: auto; }
 button, input, textarea, select { font: inherit; color: inherit; }
 button { cursor: pointer; border: none; background: none; }
@@ -228,7 +228,7 @@ p { color: var(--text-secondary); }
 .nav a:hover::after, .nav a.active::after { transform: scaleX(1); }
 .header-actions { display: flex; align-items: center; gap: 1rem; }
 .icon-btn {
-  width: 42px; height: 42px;
+  width: 44px; height: 44px;
   display: inline-flex; align-items: center; justify-content: center;
   border-radius: 50%;
   color: var(--text-primary);
@@ -241,6 +241,7 @@ p { color: var(--text-secondary); }
 .hero {
   position: relative;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   background: var(--bg-secondary);
 }
@@ -279,6 +280,7 @@ p { color: var(--text-secondary); }
   position: relative;
   z-index: 2;
   min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   align-items: center;
   padding: 6rem var(--gutter) 5rem;
@@ -345,6 +347,10 @@ p { color: var(--text-secondary); }
   transition: all 0.4s var(--ease);
   cursor: pointer;
   position: relative;
+  background-clip: content-box;
+  padding: 14px;
+  margin: -14px;
+  box-sizing: content-box;
 }
 .hero-pagination button.active {
   background: #fff;
@@ -671,7 +677,7 @@ p { color: var(--text-secondary); }
 }
 .newsletter input::placeholder { color: var(--text-muted); }
 .newsletter button {
-  width: 42px; height: 42px;
+  width: 44px; height: 44px;
   display: flex; align-items: center; justify-content: center;
   border-radius: 50%;
   background: var(--text-primary);
@@ -965,16 +971,20 @@ p { color: var(--text-secondary); }
   z-index: 110;
   opacity: 0;
   pointer-events: none;
+  cursor: pointer;
   transition: opacity 0.3s var(--ease);
 }
 .cookie-modal-backdrop.show { opacity: 1; pointer-events: auto; }
+.cookie-modal { cursor: default; }
 .cookie-modal {
   background: var(--surface);
   border-radius: 16px;
   box-shadow: var(--shadow-xl);
   width: min(560px, 100%);
   max-height: calc(100vh - 3rem);
+  max-height: calc(100dvh - 3rem);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   padding: 2rem 1.75rem 1.75rem;
   transform: translateY(20px) scale(0.98);
   transition: transform 0.35s var(--ease-out);
@@ -1190,9 +1200,10 @@ p { color: var(--text-secondary); }
   align-items: center;
   justify-content: center;
   padding: 2rem;
+  cursor: pointer;
 }
 .lightbox.active { display: flex; animation: fadeIn 0.3s var(--ease); }
-.lightbox img { max-width: 90vw; max-height: 90vh; object-fit: contain; }
+.lightbox img { max-width: 90vw; max-height: 90vh; max-height: 90dvh; object-fit: contain; }
 .lightbox-close {
   position: absolute;
   top: 1.5rem; inset-inline-start: 1.5rem;
@@ -1236,7 +1247,7 @@ p { color: var(--text-secondary); }
   border: 1px solid var(--border-strong);
   background: var(--bg-primary);
   border-radius: 2px;
-  font-size: 0.95rem;
+  font-size: 16px;
   font-family: inherit;
   text-align: right;
   transition: all 0.3s var(--ease);
@@ -1695,6 +1706,8 @@ html.a11y-no-motion .logo-mark, html.a11y-no-motion .signature, html.a11y-no-mot
   transition: transform 0.5s var(--ease-out);
   display: flex;
   flex-direction: column;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 .mobile-nav.open { transform: translateX(0); }
 .mobile-nav a {
@@ -1844,7 +1857,9 @@ html.a11y-no-motion .logo-mark, html.a11y-no-motion .signature, html.a11y-no-mot
   inset-inline-end: 1rem;
   width: min(360px, calc(100vw - 2rem));
   max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
   background: var(--surface);
   border-radius: 8px;
   box-shadow: var(--shadow-xl);

@@ -47,18 +47,30 @@
   const menuToggle = document.querySelector('.menu-toggle');
   const mobileNav = document.querySelector('.mobile-nav');
   if (menuToggle && mobileNav) {
+    const closeMobileNav = () => {
+      mobileNav.classList.remove('open');
+      menuToggle.classList.remove('open');
+      document.body.classList.remove('no-scroll');
+    };
     menuToggle.addEventListener('click', () => {
       const open = mobileNav.classList.toggle('open');
       menuToggle.classList.toggle('open', open);
       document.body.classList.toggle('no-scroll', open);
     });
     mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        mobileNav.classList.remove('open');
-        menuToggle.classList.remove('open');
-        document.body.classList.remove('no-scroll');
-      });
+      a.addEventListener('click', closeMobileNav);
     });
+    // Close on Escape or tap outside the drawer (mobile safety: prevents stuck no-scroll)
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobileNav.classList.contains('open')) closeMobileNav();
+    });
+    const outsideTap = (e) => {
+      if (!mobileNav.classList.contains('open')) return;
+      if (mobileNav.contains(e.target) || menuToggle.contains(e.target)) return;
+      closeMobileNav();
+    };
+    document.addEventListener('click', outsideTap);
+    document.addEventListener('touchend', outsideTap, { passive: true });
   }
 
   /* ---------- Hero Carousel ---------- */
@@ -111,6 +123,9 @@
       if (document.hidden) clearInterval(timer);
       else restart();
     });
+    // iOS Safari BFCache: clear interval before page is frozen so we don't stack on restore
+    window.addEventListener('pagehide', () => clearInterval(timer));
+    window.addEventListener('pageshow', (e) => { if (e.persisted) restart(); });
   }
 
   /* ---------- Reveal on scroll ---------- */
@@ -247,10 +262,11 @@
       productsGrid.querySelectorAll('.reveal').forEach(n => io.observe(n));
     }
 
-    // Wire filter buttons to dynamically-rendered products
-    if (filterBtns.length) {
-      filterBtns.forEach(btn => {
-        // Remove old listeners by cloning (defensive against re-render)
+    // Wire filter buttons to dynamically-rendered products (re-query live DOM each call,
+    // never reuse the captured NodeList which may hold detached nodes after re-render)
+    const liveFilterBtns = document.querySelectorAll('.catalog-filter button');
+    if (liveFilterBtns.length) {
+      liveFilterBtns.forEach(btn => {
         const newBtn = btn.cloneNode(true);
         btn.parentNode.replaceChild(newBtn, btn);
       });
@@ -585,31 +601,44 @@
   /* ---------- Counter animation for stats ---------- */
   const counters = document.querySelectorAll('.stat .num');
   if (counters.length && 'IntersectionObserver' in window) {
+    const animateCounter = (node) => {
+      if (node.classList.contains('counted')) return;
+      const raw = (node.textContent || '').trim();
+      const m = raw.match(/^([0-9,]+)(.*)$/);
+      if (!m) { node.classList.add('counted'); return; }
+      const target = parseInt(m[1].replace(/,/g, ''), 10);
+      const suffix = m[2];
+      if (!Number.isFinite(target) || target === 0) { node.classList.add('counted'); return; }
+      const dur = 1400;
+      const start = performance.now();
+      const tick = (t) => {
+        const p = Math.min(1, (t - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const v = Math.floor(eased * target);
+        node.textContent = v.toLocaleString('en-US') + suffix;
+        if (p < 1) requestAnimationFrame(tick);
+        else node.classList.add('counted');
+      };
+      requestAnimationFrame(tick);
+    };
     const counterIO = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (!entry.isIntersecting) return;
-        const node = entry.target;
-        const raw = (node.textContent || '').trim();
-        const m = raw.match(/^([0-9,]+)(.*)$/);
-        if (!m) { counterIO.unobserve(node); return; }
-        const target = parseInt(m[1].replace(/,/g, ''), 10);
-        const suffix = m[2];
-        if (!Number.isFinite(target) || target === 0) { counterIO.unobserve(node); return; }
-        const dur = 1400;
-        const start = performance.now();
-        const tick = (t) => {
-          const p = Math.min(1, (t - start) / dur);
-          const eased = 1 - Math.pow(1 - p, 3);
-          const v = Math.floor(eased * target);
-          node.textContent = v.toLocaleString('en-US') + suffix;
-          if (p < 1) requestAnimationFrame(tick);
-          else node.classList.add('counted');
-        };
-        requestAnimationFrame(tick);
-        counterIO.unobserve(node);
+        animateCounter(entry.target);
+        counterIO.unobserve(entry.target);
       });
-    }, { threshold: 0.4 });
+    }, { threshold: 0.25 });
     counters.forEach(c => counterIO.observe(c));
+    // Safety: animate any counter still untouched after 2s (e.g. short viewports
+    // where threshold never trips, or IO misfire on iOS Safari)
+    setTimeout(() => {
+      counters.forEach(c => {
+        if (!c.classList.contains('counted')) {
+          animateCounter(c);
+          counterIO.unobserve(c);
+        }
+      });
+    }, 2000);
   }
 
   /* ---------- Mouse-tracked glow for category cards ---------- */
@@ -804,11 +833,13 @@
         else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
       }
     });
-    document.addEventListener('click', (e) => {
-      if (panel.classList.contains('open') && !panel.contains(e.target) && e.target !== trigger && !trigger.contains(e.target)) {
-        closePanel();
-      }
-    });
+    const outsideA11yTap = (e) => {
+      if (!panel.classList.contains('open')) return;
+      if (panel.contains(e.target) || trigger.contains(e.target)) return;
+      closePanel();
+    };
+    document.addEventListener('click', outsideA11yTap);
+    document.addEventListener('touchend', outsideA11yTap, { passive: true });
   })();
 
 })();
